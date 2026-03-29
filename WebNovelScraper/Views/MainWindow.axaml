@@ -16,7 +16,7 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <Grid Margin="20" RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,*">
+    <Grid Margin="20" RowDefinitions="Auto,Auto,Auto, Auto" ColumnDefinitions="Auto,*">
 
         <!-- Chapter URL -->
         <TextBlock Grid.Row="0" Grid.Column="0"
@@ -38,9 +38,19 @@
                        Minimum="1"
                        FormatString="0"
                        Margin="0,0,0,12"/>
+        
+        <TextBlock Grid.Row="2" Grid.Column="0"
+                   Text="Chapters per file:"
+                   VerticalAlignment="Center"
+                   Margin="0,0,12,12"/>
+        <NumericUpDown Grid.Row="2" Grid.Column="1"
+                       Value="{Binding ChapterCount}"
+                       Minimum="1"
+                       FormatString="0"
+                       Margin="0,0,0,12"/>
 
         <!-- Execute -->
-        <Button Grid.Row="2" Grid.Column="1"
+        <Button Grid.Row="3" Grid.Column="1"
                 Content="Scrape"
                 Command="{Binding ScrapeCommand}"
                 HorizontalAlignment="Right"/>

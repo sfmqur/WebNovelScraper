@@ -9,10 +9,13 @@ public partial class MainWindowViewModel : ViewModelBase
     private string _chapterUrl = string.Empty;
 
     [ObservableProperty]
-    private int _chapterCount = 1;
+    private int _chapterCount = 100;
+    
+    [ObservableProperty]
+    private int _chaptersPerFile= 10;
 
     [RelayCommand]
-    private void Scrape()
+    public void Scrape()
     {
         // TODO: implement scraping logic
     }
