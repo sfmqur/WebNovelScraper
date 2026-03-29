@@ -3,18 +3,48 @@
         xmlns:vm="using:WebNovelScraper.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="200"
         x:Class="WebNovelScraper.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="WebNovelScraper">
+        Title="Web Novel Scraper"
+        Width="600"
+        SizeToContent="Height"
+        CanResize="False">
 
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Grid Margin="20" RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,*">
+
+        <!-- Chapter URL -->
+        <TextBlock Grid.Row="0" Grid.Column="0"
+                   Text="Chapter URL:"
+                   VerticalAlignment="Center"
+                   Margin="0,0,12,12"/>
+        <TextBox Grid.Row="0" Grid.Column="1"
+                 Text="{Binding ChapterUrl}"
+                 Watermark="Paste starting chapter URL here..."
+                 Margin="0,0,0,12"/>
+
+        <!-- Chapter Count -->
+        <TextBlock Grid.Row="1" Grid.Column="0"
+                   Text="Chapters to scrape:"
+                   VerticalAlignment="Center"
+                   Margin="0,0,12,12"/>
+        <NumericUpDown Grid.Row="1" Grid.Column="1"
+                       Value="{Binding ChapterCount}"
+                       Minimum="1"
+                       FormatString="0"
+                       Margin="0,0,0,12"/>
+
+        <!-- Execute -->
+        <Button Grid.Row="2" Grid.Column="1"
+                Content="Scrape"
+                Command="{Binding ScrapeCommand}"
+                HorizontalAlignment="Right"/>
+
+    </Grid>
 
 </Window>

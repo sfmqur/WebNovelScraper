@@ -1,8 +1,19 @@
-﻿namespace WebNovelScraper.ViewModels;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+
+namespace WebNovelScraper.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-#pragma warning disable CA1822 // Mark members as static
-  public string Greeting => "Welcome to Avalonia!";
-#pragma warning restore CA1822 // Mark members as static
+    [ObservableProperty]
+    private string _chapterUrl = string.Empty;
+
+    [ObservableProperty]
+    private int _chapterCount = 1;
+
+    [RelayCommand]
+    private void Scrape()
+    {
+        // TODO: implement scraping logic
+    }
 }
