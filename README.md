@@ -1,6 +1,6 @@
 # WebNovelScraper
 
-A small Windows desktop app for scraping web novels from freewebnovel.com into plain text files.
+A small  desktop app for scraping web novels from freewebnovel.com into plain text files.
 
 ## Usage
 
