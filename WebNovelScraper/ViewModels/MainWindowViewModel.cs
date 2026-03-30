@@ -1,19 +1,29 @@
+using System.Net.Http;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using WebNovelScraper.Services;
 
 namespace WebNovelScraper.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
+  private HttpClient _httpClient;
+  private ChapterScraper _scraper; 
+  public MainWindowViewModel()
+  {
+    _httpClient = new HttpClient();
+    _scraper = new ChapterScraper(_httpClient);
+  }
+  
   [ObservableProperty] private string _chapterUrl = string.Empty;
 
   [ObservableProperty] private int _chapterCount = 100;
 
   [ObservableProperty] private int _chaptersPerFile = 10;
-
+  
   [RelayCommand]
-  public void Scrape()
+  public async void Scrape()
   {
-    // TODO: implement scraping logic
+    var _chapter = await _scraper.ScrapeChapterAsync(ChapterUrl);
   }
 }

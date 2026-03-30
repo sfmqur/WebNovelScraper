@@ -1,0 +1,62 @@
+using System;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using HtmlAgilityPack;
+
+namespace WebNovelScraper.Services;
+
+public class ChapterScraper(HttpClient httpClient)
+{
+  private const string UserAgent =
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0";
+
+  /// <summary>
+  /// Fetches the chapter at <paramref name="url"/> and returns its title and
+  /// body paragraphs as a plain-text string.
+  /// Returns null if the article div cannot be found.
+  /// </summary>
+  public async Task<string?> ScrapeChapterAsync(string url)
+  {
+    using var request = new HttpRequestMessage(HttpMethod.Get, url);
+    request.Headers.Add("User-Agent", UserAgent);
+
+    using var response = await httpClient.SendAsync(request);
+    response.EnsureSuccessStatusCode();
+
+    var html = await response.Content.ReadAsStringAsync();
+
+    var doc = new HtmlDocument();
+    doc.LoadHtml(html);
+
+    var article = doc.DocumentNode.SelectSingleNode("//div[@id='article']");
+    if (article is null)
+    {
+      //todo: better error handling if something borks.
+      throw new ArgumentException($"div with id article not found in {url}");
+    }
+
+    var chapterText = new StringBuilder();
+
+    var h4 = article.SelectSingleNode(".//h4")
+             ?? throw new ArgumentException($"No chapter header h4 found in {url}");
+
+    chapterText.AppendLine(h4.InnerText.Trim());
+    chapterText.AppendLine();
+
+
+    var pTags = article.SelectNodes(".//p")
+                ?? throw new ArgumentException($"p Tags are null in {url}");
+    foreach (var p in pTags)
+    {
+      var text = p.InnerText.Trim();
+      if (text.Length > 0)
+      {
+        chapterText.AppendLine(text);
+        chapterText.AppendLine();
+      }
+    }
+
+    return chapterText.ToString();
+  }
+}
