@@ -84,7 +84,8 @@ public partial class MainWindowViewModel : ViewModelBase
     var afterNovel = url.Split("/novel/", StringSplitOptions.None);
     var parts = afterNovel[1].TrimEnd('/').Split('/');
     var bookName = parts[0];
-    var chapterSlug = parts.Length > 1 ? parts[1] : "chapter-1";
+    var rawSlug = parts.Length > 1 ? parts[1] : "chapter-1";
+    var chapterSlug = "chapter-" + rawSlug.Split('-')[1].PadLeft(4, '0');
     return $"{bookName}_{chapterSlug}.txt";
   }
 }
