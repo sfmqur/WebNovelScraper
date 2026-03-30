@@ -13,6 +13,9 @@ public class ChapterScraper(HttpClient httpClient)
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0";
 
   private const string Domain = "https://freewebnovel.com";
+
+  /// <summary>Fired after each chapter is successfully scraped. Arg is the chapter title.</summary>
+  public event Action<string>? ChapterScraped;
   
   /// <summary>
   /// Fetches the chapter at <paramref name="url"/> and returns its title and
@@ -67,6 +70,7 @@ public class ChapterScraper(HttpClient httpClient)
       }
     }
 
+    ChapterScraped?.Invoke(h4.InnerText.Trim());
     return (chapterText.ToString(), nextChapter);
   }
 }

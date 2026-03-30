@@ -18,6 +18,7 @@ public partial class MainWindowViewModel : ViewModelBase
   {
     var httpClient = new HttpClient();
     _scraper = new ChapterScraper(httpClient);
+    _scraper.ChapterScraped += title => LastScrapedChapter = title;
     
     _outputDir = Path.Combine(
       Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
@@ -32,6 +33,8 @@ public partial class MainWindowViewModel : ViewModelBase
   [ObservableProperty] private int _chapterCount = 100;
 
   [ObservableProperty] private int _chaptersPerFile = 10;
+
+  [ObservableProperty] private string _lastScrapedChapter = string.Empty;
   
   [RelayCommand]
   public async void Scrape()
