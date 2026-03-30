@@ -1,10 +1,11 @@
 # WebNovelScraper
 
-A small Windows desktop app for scraping web novels from freewebnovel.com into plain text files.
+A small  desktop app for scraping web novels from freewebnovel.com into plain text files. Project Complete and functional. 
 
 ## Usage
 
-Paste a chapter URL, set how many chapters to scrape and how many to group per file, then hit Scrape. Output files are written to `Documents/WebNovelScraper/` and named after the book and starting chapter, e.g. `the-first-legendary-beast-master_chapter-0001.txt`.
+Paste a chapter URL, set how many chapters to scrape and how many to group per file, then hit Scrape. Output files are written to `Documents/WebNovelScraper/` and named after the book and starting chapter
+Rate limited to 1/sec. Bandwidth is a privilege, don't abuse it. 
 
 ## Stack
 
