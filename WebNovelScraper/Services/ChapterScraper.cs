@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,13 +12,18 @@ public class ChapterScraper(HttpClient httpClient)
   private const string UserAgent =
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0";
 
+  private const string Domain = "https://freewebnovel.com";
+  
   /// <summary>
   /// Fetches the chapter at <paramref name="url"/> and returns its title and
   /// body paragraphs as a plain-text string.
-  /// Returns null if the article div cannot be found.
+  /// second return is the href for the next chapter. string.Empty if not found. 
   /// </summary>
-  public async Task<string?> ScrapeChapterAsync(string url)
+  public async Task<(string,string)> ScrapeChapterAsync(string url)
   {
+    if (!url.Contains("freewebnovel.com"))
+      throw new ConstraintException($"Scraper only works for freewebnovel.com");
+    
     using var request = new HttpRequestMessage(HttpMethod.Get, url);
     request.Headers.Add("User-Agent", UserAgent);
 
@@ -28,6 +34,10 @@ public class ChapterScraper(HttpClient httpClient)
 
     var doc = new HtmlDocument();
     doc.LoadHtml(html);
+  
+    
+    var nextChapterNode = doc.DocumentNode.SelectSingleNode("//a[@title='Read Next chapter']");
+    var nextChapter = nextChapterNode?.GetAttributeValue("href", string.Empty) ?? string.Empty;
 
     var article = doc.DocumentNode.SelectSingleNode("//div[@id='article']");
     if (article is null)
@@ -57,6 +67,6 @@ public class ChapterScraper(HttpClient httpClient)
       }
     }
 
-    return chapterText.ToString();
+    return (chapterText.ToString(), nextChapter);
   }
 }

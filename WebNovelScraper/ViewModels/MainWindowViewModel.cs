@@ -24,6 +24,6 @@ public partial class MainWindowViewModel : ViewModelBase
   [RelayCommand]
   public async void Scrape()
   {
-    var _chapter = await _scraper.ScrapeChapterAsync(ChapterUrl);
+    var (chapter,nextLink) = await _scraper.ScrapeChapterAsync(ChapterUrl);
   }
 }
