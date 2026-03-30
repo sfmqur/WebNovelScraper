@@ -51,12 +51,13 @@ public class ChapterScraper(HttpClient httpClient)
 
     var chapterText = new StringBuilder();
 
-    var h4 = article.SelectSingleNode(".//h4")
-             ?? throw new ArgumentException($"No chapter header h4 found in {url}");
+    var h4 = article.SelectSingleNode(".//h4");
 
-    chapterText.AppendLine(h4.InnerText.Trim());
-    chapterText.AppendLine();
-
+    if (h4 is not null)
+    {
+      chapterText.AppendLine(h4.InnerText.Trim());
+      chapterText.AppendLine();
+    }
 
     var pTags = article.SelectNodes(".//p")
                 ?? throw new ArgumentException($"p Tags are null in {url}");
@@ -70,7 +71,8 @@ public class ChapterScraper(HttpClient httpClient)
       }
     }
 
-    ChapterScraped?.Invoke(h4.InnerText.Trim());
+    var eventTitle = h4?.InnerText.Trim() ?? pTags[0].InnerText.Trim();
+    ChapterScraped?.Invoke(eventTitle);
     return (chapterText.ToString(), nextChapter);
   }
 }
