@@ -37,7 +37,7 @@ public partial class MainWindowViewModel : ViewModelBase
   [ObservableProperty] private string _lastScrapedChapter = string.Empty;
   
   [RelayCommand]
-  public async void Scrape()
+  public async Task Scrape()
   {
     await scrapeChaptersAsync(ChapterUrl, ChapterCount, ChaptersPerFile);
   }
