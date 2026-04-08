@@ -52,10 +52,13 @@ public class ChapterScraper(HttpClient httpClient)
     var chapterText = new StringBuilder();
 
     var h4 = article.SelectSingleNode(".//h4");
+    var spanChapter = doc.DocumentNode.SelectSingleNode("//span[@class='chapter']");
 
-    if (h4 is not null)
+    var chapterTitle = spanChapter?.InnerText.Trim() ?? h4?.InnerText.Trim();
+
+    if (chapterTitle is not null)
     {
-      chapterText.AppendLine(h4.InnerText.Trim());
+      chapterText.AppendLine(chapterTitle);
       chapterText.AppendLine();
     }
 
@@ -71,7 +74,7 @@ public class ChapterScraper(HttpClient httpClient)
       }
     }
 
-    var eventTitle = h4?.InnerText.Trim() ?? pTags[0].InnerText.Trim();
+    var eventTitle = chapterTitle ?? pTags[0].InnerText.Trim();
     ChapterScraped?.Invoke(eventTitle);
     return (chapterText.ToString(), nextChapter);
   }
