@@ -14,6 +14,8 @@ public class ChapterScraper(HttpClient httpClient)
 
   private const string Domain = "https://freewebnovel.com";
 
+  private const string UnicodeWatermark = "𝕗𝕣𝐞𝐞𝘄𝐞𝚋𝚗𝗼𝘃𝗲𝗹.𝚌𝕠𝚖";
+
   /// <summary>Fired after each chapter is successfully scraped. Arg is the chapter title.</summary>
   public event Action<string>? ChapterScraped;
   
@@ -66,7 +68,7 @@ public class ChapterScraper(HttpClient httpClient)
                 ?? throw new ArgumentException($"p Tags are null in {url}");
     foreach (var p in pTags)
     {
-      var text = p.InnerText.Trim();
+      var text = p.InnerText.Trim().Replace(UnicodeWatermark, string.Empty);
       if (text.Length > 0)
       {
         chapterText.AppendLine(text);
