@@ -16,7 +16,7 @@
     <vm:MainWindowViewModel />
   </Design.DataContext>
 
-  <Grid Margin="20" RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*">
+  <Grid Margin="20" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*">
 
     <!-- Chapter URL -->
     <TextBlock Grid.Row="0" Grid.Column="0"
@@ -28,40 +28,57 @@
              Watermark="Paste starting freewebnovel chapter URL here..."
              Margin="0,0,0,12" />
 
-    <!-- Chapter Count -->
+    <!-- Output Directory -->
     <TextBlock Grid.Row="1" Grid.Column="0"
+               Text="Output directory:"
+               VerticalAlignment="Center"
+               Margin="0,0,12,12" />
+    <Grid Grid.Row="1" Grid.Column="1" Margin="0,0,0,12"
+          ColumnDefinitions="Auto,*">
+      <Button Grid.Column="0"
+              Content="Browse..."
+              Click="BrowseOutputDir_Click"
+              Margin="0,0,8,0" />
+      <TextBlock Grid.Column="1"
+                 Text="{Binding OutputDir}"
+                 VerticalAlignment="Center"
+                 TextTrimming="CharacterEllipsis" />
+    </Grid>
+
+    <!-- Chapter Count -->
+    <TextBlock Grid.Row="2" Grid.Column="0"
                Text="Chapters to scrape:"
                VerticalAlignment="Center"
                Margin="0,0,12,12" />
-    <NumericUpDown Grid.Row="1" Grid.Column="1"
+    <NumericUpDown Grid.Row="2" Grid.Column="1"
                    Value="{Binding ChapterCount}"
                    Minimum="1"
                    FormatString="0"
                    Margin="0,0,0,12" />
 
-    <TextBlock Grid.Row="2" Grid.Column="0"
+    <TextBlock Grid.Row="3" Grid.Column="0"
                Text="Chapters per file:"
                VerticalAlignment="Center"
                Margin="0,0,12,12" />
-    <NumericUpDown Grid.Row="2" Grid.Column="1"
+    <NumericUpDown Grid.Row="3" Grid.Column="1"
                    Value="{Binding ChaptersPerFile}"
                    Minimum="1"
                    FormatString="0"
                    Margin="0,0,0,12" />
 
     <!-- Execute -->
-    <Button Grid.Row="3" Grid.Column="1"
+    <Button Grid.Row="4" Grid.Column="1"
             Content="Scrape"
             Command="{Binding ScrapeCommand}"
             HorizontalAlignment="Right"
             Margin="0,0,0,12"/>
 
     <!-- Progress -->
-    <TextBlock Grid.Row="4" Grid.Column="0"
+    <TextBlock Grid.Row="5" Grid.Column="0"
                Text="Progress:"
                VerticalAlignment="Center"
                Margin="0,0,12,0"/>
-    <TextBox Grid.Row="4" Grid.Column="1"
+    <TextBox Grid.Row="5" Grid.Column="1"
              Text="{Binding LastScrapedChapter}"
              IsReadOnly="True"/>
 

@@ -13,19 +13,23 @@ namespace WebNovelScraper.ViewModels;
 public partial class MainWindowViewModel : ViewModelBase
 {
   private ChapterScraper _scraper;
-  private string _outputDir;
+
+  [ObservableProperty] private string _outputDir = string.Empty;
+
   public MainWindowViewModel()
   {
     var httpClient = new HttpClient();
     _scraper = new ChapterScraper(httpClient);
     _scraper.ChapterScraped += title => LastScrapedChapter = title;
-    
-    _outputDir = Path.Combine(
+
+    OutputDir = Path.Combine(
       Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
       "WebNovelScraper");
-    Directory.CreateDirectory(_outputDir);
+    Directory.CreateDirectory(OutputDir);
   }
   
+  public string DefaultOutputPath { get;  } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+    "WebNovelScraper");
   private const string Domain = "https://freewebnovel.com";
 
   [ObservableProperty] private string _chapterUrl = string.Empty;
@@ -35,6 +39,7 @@ public partial class MainWindowViewModel : ViewModelBase
   [ObservableProperty] private int _chaptersPerFile = 10;
 
   [ObservableProperty] private string _lastScrapedChapter = string.Empty;
+  
   
   [RelayCommand]
   public async Task Scrape()
@@ -74,7 +79,7 @@ public partial class MainWindowViewModel : ViewModelBase
       }
 
       var fileName = buildFileName(fileStartUrl);
-      await File.WriteAllTextAsync(Path.Combine(_outputDir, fileName), sb.ToString());
+      await File.WriteAllTextAsync(Path.Combine(OutputDir, fileName), sb.ToString());
     }
   }
 
