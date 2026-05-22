@@ -1,3 +1,4 @@
+using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
@@ -10,6 +11,13 @@ public partial class MainWindow : Window
   public MainWindow()
   {
     InitializeComponent();
+  }
+
+  protected override void OnClosed(EventArgs e)
+  {
+    base.OnClosed(e);
+    if (DataContext is MainWindowViewModel vm)
+      vm.SaveConfig();
   }
 
   private async void BrowseOutputDir_Click(object? sender, RoutedEventArgs e)

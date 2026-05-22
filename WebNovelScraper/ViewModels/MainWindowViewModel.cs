@@ -2,10 +2,12 @@ using System;
 using System.IO;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using WebNovelScraper.Models;
 using WebNovelScraper.Services;
 
 namespace WebNovelScraper.ViewModels;
@@ -26,6 +28,7 @@ public partial class MainWindowViewModel : ViewModelBase
       Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
       "WebNovelScraper");
     Directory.CreateDirectory(OutputDir);
+    loadConfig();
   }
   
   public string DefaultOutputPath { get;  } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
@@ -81,6 +84,35 @@ public partial class MainWindowViewModel : ViewModelBase
       var fileName = buildFileName(fileStartUrl);
       await File.WriteAllTextAsync(Path.Combine(OutputDir, fileName), sb.ToString());
     }
+  }
+
+  public void SaveConfig()
+  {
+    var config = new ConfigDto
+    {
+      ChapterUrl = ChapterUrl,
+      ChapterCount = ChapterCount,
+      ChaptersPerFile = ChaptersPerFile,
+      OutputDir = OutputDir
+    };
+    var json = JsonSerializer.Serialize(config);
+    File.WriteAllText(Path.Combine(DefaultOutputPath, "config.json"), json);
+  }
+
+  private void loadConfig()
+  {
+    var path = Path.Combine(DefaultOutputPath, "config.json");
+    if (!File.Exists(path)) return;
+    try
+    {
+      var config = JsonSerializer.Deserialize<ConfigDto>(File.ReadAllText(path));
+      if (config is null) return;
+      ChapterUrl = config.ChapterUrl;
+      ChapterCount = config.ChapterCount;
+      ChaptersPerFile = config.ChaptersPerFile;
+      OutputDir = config.OutputDir;
+    }
+    catch { }
   }
 
   private static string buildFileName(string url)
