@@ -3,7 +3,7 @@
         xmlns:vm="using:WebNovelScraper.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="200"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="600"
         x:Class="WebNovelScraper.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
@@ -16,7 +16,8 @@
     <vm:MainWindowViewModel />
   </Design.DataContext>
 
-  <Grid Margin="20" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*">
+  <Grid Margin="20" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" 
+        ColumnDefinitions="Auto,*">
 
     <!-- Chapter URL -->
     <TextBlock Grid.Row="0" Grid.Column="0"
@@ -81,6 +82,22 @@
     <TextBox Grid.Row="5" Grid.Column="1"
              Text="{Binding LastScrapedChapter}"
              IsReadOnly="True"/>
+    <TextBlock
+      Grid.Row = "6"
+      Grid.Column="0"
+      VerticalAlignment="Center"
+      Text="Saved Links:"
+      />
+    <TextBox
+        Grid.Column="0"
+        Grid.Row="7"
+        Grid.RowSpan="2"
+        Grid.ColumnSpan="2"
+        Height="100"
+        Margin= "10"
+        AcceptsReturn="True"
+        Text="{Binding SavedLinks}"
+      />
 
   </Grid>
 

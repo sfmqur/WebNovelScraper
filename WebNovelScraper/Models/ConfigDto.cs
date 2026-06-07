@@ -6,4 +6,5 @@ public class ConfigDto
   public int ChapterCount { get; set; }
   public int ChaptersPerFile { get; set; }
   public string OutputDir { get; set; } = string.Empty;
+  public string SavedLinks { get; set; } = string.Empty;
 }

@@ -42,7 +42,7 @@ public partial class MainWindowViewModel : ViewModelBase
   [ObservableProperty] private int _chaptersPerFile = 10;
 
   [ObservableProperty] private string _lastScrapedChapter = string.Empty;
-  
+  [ObservableProperty] private string _savedLinks = string.Empty;
   
   [RelayCommand]
   public async Task Scrape()
@@ -93,7 +93,8 @@ public partial class MainWindowViewModel : ViewModelBase
       ChapterUrl = ChapterUrl,
       ChapterCount = ChapterCount,
       ChaptersPerFile = ChaptersPerFile,
-      OutputDir = OutputDir
+      OutputDir = OutputDir,
+      SavedLinks = SavedLinks,
     };
     var json = JsonSerializer.Serialize(config);
     File.WriteAllText(Path.Combine(DefaultOutputPath, "config.json"), json);
@@ -111,6 +112,7 @@ public partial class MainWindowViewModel : ViewModelBase
       ChapterCount = config.ChapterCount;
       ChaptersPerFile = config.ChaptersPerFile;
       OutputDir = config.OutputDir;
+      SavedLinks = config.SavedLinks;
     }
     catch { }
   }
