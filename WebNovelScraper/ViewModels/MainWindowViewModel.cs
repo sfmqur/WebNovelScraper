@@ -14,15 +14,12 @@ namespace WebNovelScraper.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-  private ChapterScraper _scraper;
-
   [ObservableProperty] private string _outputDir = string.Empty;
 
   public MainWindowViewModel()
   {
     var httpClient = new HttpClient();
-    _scraper = new ChapterScraper(httpClient);
-    _scraper.ChapterScraped += title => LastScrapedChapter = title;
+    
 
     OutputDir = Path.Combine(
       Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
@@ -62,7 +59,10 @@ public partial class MainWindowViewModel : ViewModelBase
   {
     var currentUrl = startUrl;
     var chaptersScraped = 0;
-
+    
+    using var scraper = new ChapterScraper(false);
+    scraper.ChapterScraped += title => LastScrapedChapter = title;
+    
     while (chaptersScraped < totalChapters && !string.IsNullOrEmpty(currentUrl))
     {
       var fileStartUrl = currentUrl;
@@ -73,7 +73,7 @@ public partial class MainWindowViewModel : ViewModelBase
              chaptersScraped < totalChapters &&
              !string.IsNullOrEmpty(currentUrl))
       {
-        var (chapterText, nextUrl) = await _scraper.ScrapeChapterAsync(currentUrl);
+        var (chapterText, nextUrl) = await scraper.ScrapeChapterAsync(currentUrl);
         Thread.Sleep(1000);
         sb.AppendLine(chapterText);
         chaptersInFile++;
