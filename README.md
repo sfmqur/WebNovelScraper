@@ -2,6 +2,9 @@
 
 A small  desktop app for scraping web novels from freewebnovel.com into plain text files. Project Complete and functional. 
 
+NOTE: Due to site wide changes using cloudflare. This program is effectively dead. Even with changing to selenium, it works for one page. 
+Can't pass the verify you are human checks. 
+
 ## Usage
 
 Paste a chapter URL, set how many chapters to scrape and how many to group per file, then hit Scrape. Output files are written to `Documents/WebNovelScraper/` and named after the book and starting chapter
@@ -10,4 +13,5 @@ Rate limited to 1/sec. Bandwidth is a privilege, don't abuse it.
 ## Stack
 
 - .NET 8, Avalonia UI, CommunityToolkit.Mvvm
+- 
 - HtmlAgilityPack for parsing
